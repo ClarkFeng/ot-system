@@ -45,8 +45,9 @@ public class UserController {
 	
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request) {
-		request.getSession().invalidate();
-		return "index";
+//		request.getSession().invalidate();// 注销用户，使session失效。
+		SecurityUtils.getSubject().logout();
+		return "login";
 	}	
 	
 	@RequestMapping("/admin")
