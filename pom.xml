@@ -117,7 +117,37 @@
 			<artifactId>spring-aspects</artifactId>
 			<version>4.3.0.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>4.3.0.RELEASE</version>
+		</dependency>
 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>4.3.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<version>4.3.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc-portlet</artifactId>
+			<version>4.3.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-messaging</artifactId>
+			<version>4.3.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-instrument</artifactId>
+			<version>4.3.0.RELEASE</version>
+		</dependency>
 		<!-- 添加mybatis支持 -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -142,10 +172,24 @@
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 		</dependency>
+		<!-- hibernate -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>4.3.9.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
 
 
+			<artifactId>hibernate-ehcache</artifactId>
+
+
+			<version>4.3.9.Final</version>
+
+		</dependency>
 	</dependencies>
-<build>
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -156,8 +200,8 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-			
-						<!-- 生成sources源码包的插件 -->
+
+			<!-- 生成sources源码包的插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>

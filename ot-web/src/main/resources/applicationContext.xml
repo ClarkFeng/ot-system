@@ -14,7 +14,7 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">    
 
     <!-- 自动扫描 -->
-    <context:component-scan base-package="demo.service" />
+    <context:component-scan base-package="hibernatetest" />
 
     <!-- 配置数据源 -->
     <bean id="dataSource"
@@ -24,31 +24,55 @@
         <property name="username" value="root"/>
         <property name="password" value="321ewq"/>
     </bean>
-
-    <!-- 配置mybatis的sqlSessionFactory -->
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <!-- org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <!-- 自动扫描mappers.xml文件 -->
-        <property name="mapperLocations" value="classpath:demo/mappers/*.xml"></property>
-        <!-- mybatis配置文件 -->
-        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
-    </bean>
+        <property name="hibernateProperties">  
+            <props>  
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>  
+                <prop key="hibernate.show_sql">true</prop>  
 
-    <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
+
+                <prop key="hibernate.jdbc.batch_size">50</prop>  
+
+                <prop key="hibernate.hbm2ddl.auto">update</prop>  
+                <!-- 这一个必须配置，否则会出现no session 的错误 -->
+                <!-- <prop key="hibernate.current_session_context_class">${hibernate.current_session_context_class}</prop> -->
+            </props>  
+        </property>
+        <!-- 自动扫描制定位置下的实体进行映射  --> 
+        <property name="packagesToScan" value="hibernatetest.entity"/>
+    </bean>
+    
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <!-- 配置mybatis的sqlSessionFactory 
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />-->
+        <!-- 自动扫描mappers.xml文件 
+        <property name="mapperLocations" value="classpath:demo/mappers/*.xml"></property>-->
+        <!-- mybatis配置文件 
+        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+    </bean>-->
+
+    <!-- DAO接口所在包名，Spring会自动查找其下的类 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="demo.dao" />
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
-    </bean>
+    </bean>-->
 
-    <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+    <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx 
     <bean id="transactionManager"
         class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
-    </bean>
+    </bean>-->
 
 
     <!-- 自定义Realm -->
-    <bean id="myRealm" class="demo.realm.MyRealm"/>  
+    <bean id="myRealm" class="hibernatetest.realm.MyRealm"/>  
     <!-- 安全管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
       <property name="realm" ref="myRealm"/>  
@@ -92,9 +116,9 @@
       <property name="securityManager" ref="securityManager"/>  
     </bean>  
 
-    <!-- 配置事务通知属性 -->  
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">  
-        <!-- 定义事务传播属性 -->  
+    <!-- 配置事务通知属性 
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">  -->  
+        <!-- 定义事务传播属性
         <tx:attributes>  
             <tx:method name="insert*" propagation="REQUIRED" />  
             <tx:method name="update*" propagation="REQUIRED" />  
@@ -112,12 +136,12 @@
             <tx:method name="load*" propagation="REQUIRED" read-only="true" />  
             <tx:method name="*" propagation="REQUIRED" read-only="true" />  
         </tx:attributes>  
-    </tx:advice>  
+    </tx:advice>   -->  
 
-    <!-- 配置事务切面 -->  
+    <!-- 配置事务切面 
     <aop:config>  
         <aop:pointcut id="serviceOperation"  
             expression="execution(* demo.service.*.*(..))" />  
         <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation" />  
-    </aop:config>         
+    </aop:config>   -->        
 </beans>
